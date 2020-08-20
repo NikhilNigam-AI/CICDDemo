@@ -91,7 +91,6 @@ public class DemoApp {
 
         // Use Chrome browser
         driver = new ChromeDriver(options);
-
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS) ;
     }
 
