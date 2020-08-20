@@ -65,9 +65,7 @@ public class DemoApp {
         sconf.setBatch(batch);
         //sconf.setForceFullPageScreenshot(true);
 
-
         // Initialize the eyes SDK
-
         eyes = new Eyes();
         eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/DemoApp.log",true,true));
 
@@ -93,7 +91,6 @@ public class DemoApp {
 
         // Use Chrome browser
         driver = new ChromeDriver(options);
-
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS) ;
     }
 
