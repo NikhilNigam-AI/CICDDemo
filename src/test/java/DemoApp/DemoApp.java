@@ -65,7 +65,6 @@ public class DemoApp {
         sconf.setBatch(batch);
         //sconf.setForceFullPageScreenshot(true);
 
-
         // Initialize the eyes SDK
 
         eyes = new Eyes();
