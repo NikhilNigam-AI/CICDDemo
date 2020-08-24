@@ -34,10 +34,10 @@ public class DemoApp {
     private Eyes eyes;
     private static BatchInfo batch;
     private WebDriver driver;
-    private String url1 ="https://demo.applitools.com";
-    // private String url1 = "https://demo.applitools.com/index_v2.html";
-    private String url2 ="https://demo.applitools.com/app.html";
-    // private String url2 = "https://demo.applitools.com/app_v2.html";
+    //private String url1 ="https://demo.applitools.com";
+    private String url1 = "https://demo.applitools.com/index_v2.html";
+    //private String url2 ="https://demo.applitools.com/app.html";
+    private String url2 = "https://demo.applitools.com/app_v2.html";
 
     @BeforeClass
     public static void setBatch() {
@@ -68,7 +68,6 @@ public class DemoApp {
         // Initialize the eyes SDK
         eyes = new Eyes();
         eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/DemoApp.log",true,true));
-
 
         // Raise an error if no API Key has been found.
         if(isNullOrEmpty(System.getenv("APPLITOOLS_API_KEY"))) {
