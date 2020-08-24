@@ -29,7 +29,6 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  */
 @RunWith(JUnit4.class)
 public class DemoApp {
-
     private EyesRunner runner;
     private Eyes eyes;
     private static BatchInfo batch;
