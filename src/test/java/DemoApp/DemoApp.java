@@ -103,7 +103,6 @@ public class DemoApp {
             var tName = "Basic Diff Test (STRICT mode)";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
-            //System.setProperty("webdriver.chrome.driver","/Users/Nikhil/Documents/chromedriver/v81/chromedriver.exe");
             // Set AUT's name, test name and viewport size (width X height)
             // We have set it to 800 x 600 to accommodate various screens. Feel free to
             // change it.
@@ -129,8 +128,6 @@ public class DemoApp {
             driver.get(url2);
 
             // Induce Error 2- Remove logo and change background color of text box
-            //if(flag)
-            //js.executeScript("document.getElementById(\"ext-input-2\").style.backgroundColor='red';");
             BreakSite(flag, js, "remove","document.getElementsByClassName(\"element-box-tp\")[0]");
 
             // Visual checkpoint #2 - Check the app page.
