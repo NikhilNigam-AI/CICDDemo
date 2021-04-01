@@ -99,8 +99,8 @@ public class DemoApp {
     @Test
     public void DemoApp_Diff_Test_Strict() throws Exception {
         try {
-            var flag = false;
-            var tName = "Basic Diff Test (STRICT mode)";
+            boolean flag = false;
+            String tName = "Basic Diff Test (STRICT mode)";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
             // Set AUT's name, test name and viewport size (width X height)
@@ -145,8 +145,8 @@ public class DemoApp {
     @Test
     public void DemoApp_Diff_Test_Layout() throws Exception {
         try {
-            var flag = false;
-            var tName = "Basic Diff Test (LAYOUT mode)";
+            boolean flag = false;
+            String tName = "Basic Diff Test (LAYOUT mode)";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
             //System.setProperty("webdriver.chrome.driver","/Users/Nikhil/Documents/chromedriver/v81/chromedriver.exe");
