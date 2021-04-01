@@ -2,26 +2,20 @@ package DemoApp;
 
 
 import com.applitools.eyes.*;
-import com.applitools.eyes.selenium.ClassicRunner;
-import com.applitools.eyes.selenium.Configuration;
-import com.applitools.eyes.selenium.Eyes;
-import com.applitools.eyes.selenium.StitchMode;
+import com.applitools.eyes.selenium.*;
 import com.applitools.eyes.selenium.fluent.Target;
+import com.applitools.eyes.visualgrid.model.DeviceName;
+import com.applitools.eyes.visualgrid.model.IosDeviceInfo;
+import com.applitools.eyes.visualgrid.model.IosDeviceName;
+import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.safari.SafariOptions;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
@@ -52,7 +46,8 @@ public class DemoApp {
     @Before
     public void beforeEach() {
         // Initialize the Runner for your test.
-        runner = new ClassicRunner();
+        //runner = new ClassicRunner();
+        runner = new VisualGridRunner(10);
         Configuration sconf = new Configuration();
         sconf.setIgnoreDisplacements(true);
         sconf.setIgnoreCaret(true);
@@ -60,9 +55,19 @@ public class DemoApp {
         sconf.setStitchMode(StitchMode.CSS);
         sconf.setMatchLevel(MatchLevel.STRICT);
         sconf.setWaitBeforeScreenshots(2000);
-        sconf.setAppName("Git");
         sconf.setBatch(batch);
-        //sconf.setForceFullPageScreenshot(true);
+        sconf.addBrowser(2560, 1440, BrowserType.CHROME);
+        sconf.addBrowser(1366, 768, BrowserType.CHROME_TWO_VERSIONS_BACK);
+        sconf.addBrowser(1200, 800, BrowserType.CHROME_ONE_VERSION_BACK);
+        sconf.addBrowser(1024, 768, BrowserType.SAFARI);
+        sconf.addBrowser(1366, 768, BrowserType.EDGE_CHROMIUM);
+        sconf.addBrowser(1024, 768, BrowserType.FIREFOX);
+        sconf.addDeviceEmulation(DeviceName.Pixel_4);
+        sconf.addDeviceEmulation(DeviceName.OnePlus_7T_Pro);
+        sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_XR));
+        sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPad_Air_2));
+        sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_11_Pro_Max));
+        sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_12));
 
         // Initialize the eyes SDK
         eyes = new Eyes();
@@ -202,7 +207,6 @@ public class DemoApp {
             switch (changeType) {
                 case "css":
                     js.executeScript("arguments[0].setAttribute('style','color: red')", selectedElement);
-                    //js.executeScript("arguments[0].setAttribute('style','color: pink')", driver.findElement(By.cssSelector("#login > form > div.auth-form-body.mt-3 > label:nth-child(3)")));
                     js.executeScript("arguments[0].setAttribute('style','fill: green')", selectedElement);
                     js.executeScript("arguments[0].setAttribute('style','font-size: 8px')", selectedElement);
                     break;

@@ -16,41 +16,24 @@
         <dependency>
             <groupId>com.applitools</groupId>
             <artifactId>eyes-selenium-java3</artifactId>
-            <version>3.160.3</version>
+            <version>3.197.0</version>
         </dependency>
         <!-- Required to run "mvn package" which runs test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.13</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.13</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.applitools</groupId>-->
-        <!--            <artifactId>eyes-selenium-java3</artifactId>-->
-        <!--            <version>RELEASE</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.applitools</groupId>-->
-        <!--            <artifactId>eyes-selenium-java3</artifactId>-->
-        <!--            <version>RELEASE</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
