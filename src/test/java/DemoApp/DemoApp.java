@@ -48,6 +48,7 @@ public class DemoApp {
         // Initialize the Runner for your test.
         //runner = new ClassicRunner();
         runner = new VisualGridRunner(10);
+
         Configuration sconf = new Configuration();
         sconf.setIgnoreDisplacements(true);
         sconf.setIgnoreCaret(true);
@@ -70,7 +71,7 @@ public class DemoApp {
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_12));
 
         // Initialize the eyes SDK
-        eyes = new Eyes();
+        eyes = new Eyes(runner);
         eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/DemoApp.log",true,true));
 
         // Raise an error if no API Key has been found.
