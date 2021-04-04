@@ -48,6 +48,7 @@ public class DemoApp {
         // Initialize the Runner for your test.
         //runner = new ClassicRunner();
         runner = new VisualGridRunner(10);
+
         Configuration sconf = new Configuration();
         sconf.setIgnoreDisplacements(true);
         sconf.setIgnoreCaret(true);
@@ -70,7 +71,7 @@ public class DemoApp {
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_12));
 
         // Initialize the eyes SDK
-        eyes = new Eyes();
+        eyes = new Eyes(runner);
         eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/DemoApp.log",true,true));
 
         // Raise an error if no API Key has been found.
@@ -99,11 +100,10 @@ public class DemoApp {
     @Test
     public void DemoApp_Diff_Test_Strict() throws Exception {
         try {
-            var flag = false;
-            var tName = "Basic Diff Test (STRICT mode)";
+            boolean flag = false;
+            String tName = "Basic Diff Test (STRICT mode)";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
-            //System.setProperty("webdriver.chrome.driver","/Users/Nikhil/Documents/chromedriver/v81/chromedriver.exe");
             // Set AUT's name, test name and viewport size (width X height)
             // We have set it to 800 x 600 to accommodate various screens. Feel free to
             // change it.
@@ -129,8 +129,6 @@ public class DemoApp {
             driver.get(url2);
 
             // Induce Error 2- Remove logo and change background color of text box
-            //if(flag)
-            //js.executeScript("document.getElementById(\"ext-input-2\").style.backgroundColor='red';");
             BreakSite(flag, js, "remove","document.getElementsByClassName(\"element-box-tp\")[0]");
 
             // Visual checkpoint #2 - Check the app page.
@@ -148,8 +146,8 @@ public class DemoApp {
     @Test
     public void DemoApp_Diff_Test_Layout() throws Exception {
         try {
-            var flag = false;
-            var tName = "Basic Diff Test (LAYOUT mode)";
+            boolean flag = false;
+            String tName = "Basic Diff Test (LAYOUT mode)";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
             //System.setProperty("webdriver.chrome.driver","/Users/Nikhil/Documents/chromedriver/v81/chromedriver.exe");
