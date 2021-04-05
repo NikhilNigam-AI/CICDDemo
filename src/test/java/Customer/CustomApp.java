@@ -37,13 +37,13 @@ public class CustomApp {
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
         batch = new BatchInfo("IAG Demo");
-        if(System.getenv("APPLITOOLS_BATCH_ID") != null) {
-            String batchId = System.getenv("APPLITOOLS_BATCH_ID");
-            if (batchId != null) {
-                batch.setId(batchId);
-                System.out.println("Applitools Batch ID is " + batchId);
-            }
+
+        String batchId = System.getenv("APPLITOOLS_BATCH_ID");
+        if (batchId != null) {
+            batch.setId(batchId);
+            System.out.println("Applitools Batch ID is " + batchId);
         }
+
     }
 
     @Before
