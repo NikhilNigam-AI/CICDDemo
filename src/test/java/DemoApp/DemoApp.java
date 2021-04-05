@@ -2,13 +2,19 @@ package DemoApp;
 
 
 import com.applitools.eyes.*;
-import com.applitools.eyes.selenium.*;
+import com.applitools.eyes.selenium.BrowserType;
+import com.applitools.eyes.selenium.Configuration;
+import com.applitools.eyes.selenium.Eyes;
+import com.applitools.eyes.selenium.StitchMode;
 import com.applitools.eyes.selenium.fluent.Target;
 import com.applitools.eyes.visualgrid.model.DeviceName;
 import com.applitools.eyes.visualgrid.model.IosDeviceInfo;
 import com.applitools.eyes.visualgrid.model.IosDeviceName;
 import com.applitools.eyes.visualgrid.services.VisualGridRunner;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,31 +22,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-/**
- * Runs Applitools test for the demo app https://demo.applitools.com
- */
+
 @RunWith(JUnit4.class)
 public class DemoApp {
     private EyesRunner runner;
     private Eyes eyes;
     private static BatchInfo batch;
     private WebDriver driver;
-    private String url1 ="https://demo.applitools.com";
-    //private String url1 = "https://demo.applitools.com/index_v2.html";
-    private String url2 ="https://demo.applitools.com/app.html";
-    //private String url2 = "https://demo.applitools.com/app_v2.html";
 
     @BeforeClass
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
-        batch = new BatchInfo("Github Integration Demo");
+        batch = new BatchInfo("IAG Demo");
+
         String batchId = System.getenv("APPLITOOLS_BATCH_ID");
-        if(batchId != null) {
+        if (batchId != null) {
             batch.setId(batchId);
             System.out.println("Applitools Batch ID is " + batchId);
         }
+
     }
 
     @Before
@@ -72,7 +75,7 @@ public class DemoApp {
 
         // Initialize the eyes SDK
         eyes = new Eyes(runner);
-        eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/DemoApp.log",true,true));
+        eyes.setLogHandler(new FileLogger("/Users/nikhil/Documents/demos/Java/logs/CustomerApp.log",true,true));
 
         // Raise an error if no API Key has been found.
         if(isNullOrEmpty(System.getenv("APPLITOOLS_API_KEY"))) {
@@ -98,75 +101,43 @@ public class DemoApp {
     }
 
     @Test
-    public void DemoApp_Diff_Test_Strict() throws Exception {
+    public void IAGApp_Test() throws Exception {
+
         try {
             boolean flag = false;
-            String tName = "Basic Diff Test (STRICT mode)";
+            String tName = "IAG Pages";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
-            // Set AUT's name, test name and viewport size (width X height)
-            // We have set it to 800 x 600 to accommodate various screens. Feel free to
-            // change it.
-            eyes.open(driver, "Demo App", tName, new RectangleSize(1200, 800));
-
-            //Check point
-            printConsoleOutput(tName,eyes);
+            eyes.open(driver, "IAG1", tName, new RectangleSize(1200, 800));
 
             // Navigate the browser to the  app.
-            driver.get(url1);
-
-            // To see visual bugs after the first run, use the commented line below instead.
-            //driver.get("https://demo.applitools.com/index_v2.html");
+            driver.get("https://www.iag.com.au/");
 
             // Induce Error 1 -  Remove logo via Java script
-            BreakSite(flag, js, "remove","document.getElementsByClassName(\"btn btn-primary\")[0]");
+            BreakSite(flag, js, "content","document.querySelector(\"#prices > li:nth-child(1) > a > span.price\")", new String[] {"$4.80"});
+            BreakSite(flag, js, "hide","document.querySelector('#md-megamenu-6 > div > ul > li:nth-child(2) > a > span')", null);
+            BreakSite(flag, js, "bg","document.querySelector(\"#page > section > div\")", new String[] {"Green"});
 
-            // Visual checkpoint #1 - Check the login page.
-            // eyes.checkWindow("Home Page");
-            eyes.check("Login Page",Target.window().fully());
+            // Visual checkpoint
+            eyes.check("Home",Target.window().fully());
 
             // navigate to catalogue page
-            driver.get(url2);
+            driver.get("https://www.iag.com.au/about-us/who-we-are/purpose-and-strategy");
 
             // Induce Error 2- Remove logo and change background color of text box
-            BreakSite(flag, js, "remove","document.getElementsByClassName(\"element-box-tp\")[0]");
+            BreakSite(flag, js, "content","document.querySelector(\"#node-2606 > div > div.field.field-name-field-news-intro-paragraph.field-type-text-long.field-label-hidden > div > div\")", new String[] {"IAG’s purpose means that whether you are a customer, partner, employee. Applitools content change in between. IAG believes its purpose will enable it to become a more sustainable business over the long term and deliver stronger and more consistent returns for its shareholders."});
+            BreakSite(flag, js, "hide", "document.querySelector(\"#node-2606 > div > div.field.field-name-body.field-type-text-with-summary.field-label-hidden > div > div > ul:nth-child(12) > li:nth-child(1)\")", null);
+            BreakSite(flag, js, "hide", "document.querySelector('#page > section > div > div.social > ul > li.rrssb-linkedin')", null);
+            // Visual checkpoint
+            eyes.check("Purpose", Target.window().content().fully());
 
-            // Visual checkpoint #2 - Check the app page.
-            eyes.check("Main Page", Target.window().fully());
+            driver.get("https://www.iag.com.au/shareholder-centre/share-price-information#share_history");
 
-            // End the test.
-            eyes.closeAsync();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-    }
+            BreakSite(flag, js, "bg", "document.querySelector('#share_data > ul > li:nth-child(1) > h4')", new String[] {"red"});
+            BreakSite(flag, js, "hide", "document.querySelector(\"#share_calc > form > select\")", null);
 
-    @Test
-    public void DemoApp_Diff_Test_Layout() throws Exception {
-        try {
-            boolean flag = false;
-            String tName = "Basic Diff Test (LAYOUT mode)";
-            JavascriptExecutor js = (JavascriptExecutor)driver;
-
-            //System.setProperty("webdriver.chrome.driver","/Users/Nikhil/Documents/chromedriver/v81/chromedriver.exe");
-            // Set AUT's name, test name and viewport size (width X height)
-            // We have set it to 800 x 600 to accommodate various screens. Feel free to
-            // change it.
-            eyes.open(driver, "Demo App", tName, new RectangleSize(1200, 800));
-
-            //Check point
-            printConsoleOutput(tName,eyes);
-
-            // navigate to catalogue page
-            driver.get("https://demo.applitools.com/app.html");
-
-            // Induce Error - Remove logo and change background color of text box
-            BreakSite(flag, js, "css-font","document.getElementsByClassName(\"element-box-tp\")[0]");
-
-            // Visual checkpoint #2 - Check the app page.
-            eyes.check("Main Page", Target.window().layout().fully());
+            // Visual checkpoint
+            eyes.check("Share Price", Target.window().layout().fully());
 
             // End the test.
             eyes.closeAsync();
@@ -199,49 +170,41 @@ public class DemoApp {
 
     }
 
-    private static void BreakSite(Boolean flag, JavascriptExecutor js,String changeType, WebElement selectedElement ) {
-
-        if(flag) {
-            switch (changeType) {
-                case "css":
-                    js.executeScript("arguments[0].setAttribute('style','color: red')", selectedElement);
-                    js.executeScript("arguments[0].setAttribute('style','fill: green')", selectedElement);
-                    js.executeScript("arguments[0].setAttribute('style','font-size: 8px')", selectedElement);
-                    break;
-
-                case "remove":
-                    js.executeScript("arguments[0].remove();", selectedElement);
-                    break;
-
-                case "content":
-                default:
-                    //js.executeScript("arguments[0].setAttribute("innerHtml",;", selectedElement);
-                    break;
-
-            }
-        }
-
-    }
-
-    private static void BreakSite(Boolean flag, JavascriptExecutor js,String changeType, String domElement ) {
+    private static void BreakSite(Boolean flag, JavascriptExecutor js,String changeType, String domElement, String[] args ) {
 
         if(flag) {
             switch (changeType) {
                 case "css":
                     js.executeScript(domElement +".setAttribute('style','position:relative; bottom:30px; font-size:20px; border: 3px solid #73AD21');");
+                    //js.executeScript("document.querySelector(\"html\").style.height='auto'");
                     break;
                 case "css-position":
                     js.executeScript(domElement+ ".setAttribute('style','position:relative; bottom:40px; border: 1px solid red');");
                     break;
+                case "css-position2":
+                    js.executeScript(domElement+ ".setAttribute('style','position:relative; bottom:10px; border: 2px solid red; background:green');");
+                    break;
                 case "css-font":
-                    js.executeScript(domElement+ ".setAttribute('style','font-size: 25px');");
+                    js.executeScript(domElement+ ".setAttribute('style','font-size: 30px');");
                     break;
                 case "css-border":
                     js.executeScript(domElement+ ".setAttribute('style','border: 3px solid #73AD21');");
                     break;
                 case "bg":
-                    js.executeScript(domElement +"style.backgroundColor='red';");
+                    if(args != null) {
+                        js.executeScript(domElement + ".style.backgroundColor='"+ args[0] +"';");
+                    }
+                    else
+                    {
+                        js.executeScript(domElement + ".style.backgroundColor='blue';");
+                    }
+
                     break;
+
+                case "hide":
+                    js.executeScript(domElement+ ".style.visibility='hidden';");
+                    break;
+
 
                 case "remove":
                     js.executeScript(domElement+ ".remove();");
@@ -252,6 +215,18 @@ public class DemoApp {
                     break;
 
                 case "content":
+                    try {
+                        if (args != null) {
+                            js.executeScript(domElement + ".innerHTML='" + args[0] + "'");
+                        } else {
+                            js.executeScript(domElement + ".innerHTML='Something'");
+                        }
+                    }
+                    catch (Exception e) {
+                        js.executeScript(domElement + ".innerText='Alt Text'");
+                    }
+
+                    break;
                 default:
                     //js.executeScript("arguments[0].setAttribute("innerHtml",;", selectedElement);
                     break;
@@ -260,5 +235,4 @@ public class DemoApp {
         }
 
     }
-
 }
