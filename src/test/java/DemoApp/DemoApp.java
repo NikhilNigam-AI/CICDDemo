@@ -104,7 +104,7 @@ public class DemoApp {
     public void IAGApp_Test() throws Exception {
 
         try {
-            boolean flag = false;
+            boolean flag = true;
             String tName = "IAG Pages";
             JavascriptExecutor js = (JavascriptExecutor)driver;
 
