@@ -32,6 +32,13 @@ public class DemoApp {
     private Eyes eyes;
     private static BatchInfo batch;
     private WebDriver driver;
+    private static JavascriptExecutor js;
+    private static boolean flag = true;
+
+    // URLs to test
+    static final String url1 ="https://www.iag.com.au/";
+    static final String url2 ="https://www.iag.com.au/about-us/who-we-are/purpose-and-strategy";
+    static final String url3 ="https://www.iag.com.au/shareholder-centre/share-price-information#share_history";
 
     @BeforeClass
     public static void setBatch() {
@@ -98,43 +105,32 @@ public class DemoApp {
 
         // Use Chrome browser
         driver = new ChromeDriver(options);
+        js = (JavascriptExecutor)driver;
     }
 
     @Test
     public void IAGApp_Test() throws Exception {
 
         try {
-            boolean flag = true;
-            String tName = "IAG Pages";
-            JavascriptExecutor js = (JavascriptExecutor)driver;
 
-            eyes.open(driver, "IAG1", tName, new RectangleSize(1200, 800));
+            String testName = "IAG Pages";
 
-            // Navigate the browser to the  app.
-            driver.get("https://www.iag.com.au/");
+            eyes.open(driver, "IAG1", testName, new RectangleSize(1200, 800));
 
-            // Induce Error 1 -  Remove logo via Java script
-            BreakSite(flag, js, "content","document.querySelector(\"#prices > li:nth-child(1) > a > span.price\")", new String[] {"$4.80"});
-            BreakSite(flag, js, "hide","document.querySelector('#md-megamenu-6 > div > ul > li:nth-child(2) > a > span')", null);
-            BreakSite(flag, js, "bg","document.querySelector(\"#page > section > div\")", new String[] {"Green"});
+            // Navigate to https://www.iag.com.au/
+            navigateToPage(url1);
 
             // Visual checkpoint
             eyes.check("Home",Target.window().fully());
 
-            // navigate to catalogue page
-            driver.get("https://www.iag.com.au/about-us/who-we-are/purpose-and-strategy");
+            // navigate to https://www.iag.com.au/about-us/who-we-are/purpose-and-strategy
+            navigateToPage(url2);
 
-            // Induce Error 2- Remove logo and change background color of text box
-            BreakSite(flag, js, "content","document.querySelector(\"#node-2606 > div > div.field.field-name-field-news-intro-paragraph.field-type-text-long.field-label-hidden > div > div\")", new String[] {"IAG’s purpose means that whether you are a customer, partner, employee. Applitools content change in between. IAG believes its purpose will enable it to become a more sustainable business over the long term and deliver stronger and more consistent returns for its shareholders."});
-            BreakSite(flag, js, "hide", "document.querySelector(\"#node-2606 > div > div.field.field-name-body.field-type-text-with-summary.field-label-hidden > div > div > ul:nth-child(12) > li:nth-child(1)\")", null);
-            BreakSite(flag, js, "hide", "document.querySelector('#page > section > div > div.social > ul > li.rrssb-linkedin')", null);
             // Visual checkpoint
             eyes.check("Purpose", Target.window().content().fully());
 
-            driver.get("https://www.iag.com.au/shareholder-centre/share-price-information#share_history");
-
-            BreakSite(flag, js, "bg", "document.querySelector('#share_data > ul > li:nth-child(1) > h4')", new String[] {"red"});
-            BreakSite(flag, js, "hide", "document.querySelector(\"#share_calc > form > select\")", null);
+            // Navigate to https://www.iag.com.au/shareholder-centre/share-price-information#share_history
+            navigateToPage(url3);
 
             // Visual checkpoint
             eyes.check("Share Price", Target.window().layout().fully());
@@ -163,6 +159,32 @@ public class DemoApp {
         System.out.println(allTestResults);
     }
 
+    private void navigateToPage(String url)
+    {
+        driver.get(url);
+        switch(url)
+        {
+            case url1:
+                // Induce Error 1 -  Remove logo via Java script
+                BreakSite(flag, js, "content","document.querySelector(\"#prices > li:nth-child(1) > a > span.price\")", new String[] {"$4.80"});
+                BreakSite(flag, js, "hide","document.querySelector('#md-megamenu-6 > div > ul > li:nth-child(2) > a > span')", null);
+                BreakSite(flag, js, "bg","document.querySelector(\"#page > section > div\")", new String[] {"Green"});
+                break;
+            case url2:
+                // Induce Error 2- Remove logo and change background color of text box
+                BreakSite(flag, js, "content","document.querySelector(\"#node-2606 > div > div.field.field-name-field-news-intro-paragraph.field-type-text-long.field-label-hidden > div > div\")", new String[] {"IAG’s purpose means that whether you are a customer, partner, employee. Applitools content change in between. IAG believes its purpose will enable it to become a more sustainable business over the long term and deliver stronger and more consistent returns for its shareholders."});
+                BreakSite(flag, js, "hide", "document.querySelector(\"#node-2606 > div > div.field.field-name-body.field-type-text-with-summary.field-label-hidden > div > div > ul:nth-child(12) > li:nth-child(1)\")", null);
+                BreakSite(flag, js, "hide", "document.querySelector('#page > section > div > div.social > ul > li.rrssb-linkedin')", null);
+                break;
+            case url3:
+                BreakSite(flag, js, "bg", "document.querySelector('#share_data > ul > li:nth-child(1) > h4')", new String[] {"red"});
+                BreakSite(flag, js, "hide", "document.querySelector(\"#share_calc > form > select\")", null);
+                break;
+            default:
+                break;
+        }
+    }
+
     public static void printConsoleOutput( String tname, Eyes obj)
     {
         System.out.println("Executing test ["+tname+"] with configurations:");
@@ -170,7 +192,8 @@ public class DemoApp {
 
     }
 
-    private static void BreakSite(Boolean flag, JavascriptExecutor js,String changeType, String domElement, String[] args ) {
+    private static void BreakSite(Boolean flag, JavascriptExecutor js,String changeType, String domElement, String[] args )
+    {
 
         if(flag) {
             switch (changeType) {
