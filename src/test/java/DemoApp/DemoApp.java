@@ -68,6 +68,8 @@ public class DemoApp {
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPad_Air_2));
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_11_Pro_Max));
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_12));
+        
+        
 
         // Initialize the eyes SDK
         eyes = new Eyes();
