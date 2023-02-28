@@ -7,7 +7,9 @@
 # documentation.
 
 name: Java CI with Maven
-
+env:
+  APPLITOOLS_BATCH_ID: ${{ secrets.APPLITOOLS_BATCH_ID }}
+  APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
 on:
   push:
     branches: [ "master" ]
