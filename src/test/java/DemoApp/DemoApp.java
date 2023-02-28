@@ -35,7 +35,14 @@ public class DemoApp {
     @BeforeClass
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
-        batch = new BatchInfo("Github Integration Demo");
+        String batchName = System.getenv("APPLITOOLS_BATCH_NAME");
+        
+        if(batchName == null){
+            batchName = "Demo Batch";
+        }    
+        batch = new BatchInfo(batchName);
+        
+        
         String batchId = System.getenv("APPLITOOLS_BATCH_ID");
         if(batchId != null) {
             batch.setId(batchId);
