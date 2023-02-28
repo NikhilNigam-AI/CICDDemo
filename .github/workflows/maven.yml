@@ -8,7 +8,8 @@
 
 name: Java CI with Maven
 env:
-  APPLITOOLS_BATCH_ID: ${{ github.run_id }}
+  APPLITOOLS_BATCH_ID: ${{ github.run_number }}
+  APPLITOOLS_BATCH_NAME: ${{ github.run_id }}
   APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
 on:
   push:
@@ -31,6 +32,9 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      
+    - name: MacOs List of GitHub Actions environment variables
+      run: env
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
