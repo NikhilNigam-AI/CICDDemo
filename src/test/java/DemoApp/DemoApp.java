@@ -35,7 +35,14 @@ public class DemoApp {
     @BeforeClass
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
-        batch = new BatchInfo("Github Integration Demo");
+        String batchName = System.getenv("APPLITOOLS_BATCH_NAME");
+        
+        if(batchName == null){
+            batchName = "Demo Batch";
+        }    
+        batch = new BatchInfo(batchName);
+        
+        
         String batchId = System.getenv("APPLITOOLS_BATCH_ID");
         if(batchId != null) {
             batch.setId(batchId);
@@ -68,6 +75,8 @@ public class DemoApp {
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPad_Air_2));
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_11_Pro_Max));
         sconf.addBrowser(new IosDeviceInfo(IosDeviceName.iPhone_12));
+        
+        
 
         // Initialize the eyes SDK
         eyes = new Eyes();
