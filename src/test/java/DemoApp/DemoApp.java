@@ -42,7 +42,6 @@ public class DemoApp {
         }    
         batch = new BatchInfo(batchName);
         
-        
         String batchId = System.getenv("APPLITOOLS_BATCH_ID");
         if(batchId != null) {
             batch.setId(batchId);
