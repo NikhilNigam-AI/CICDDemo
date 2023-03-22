@@ -99,6 +99,8 @@ public class DemoApp {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         options.addArguments("--headless");
+        
+        
 
         // Use Chrome browser
         driver = new ChromeDriver(options);
