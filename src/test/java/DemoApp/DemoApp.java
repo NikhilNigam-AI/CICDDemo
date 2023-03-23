@@ -27,8 +27,8 @@ public class DemoApp {
     private Eyes eyes;
     private static BatchInfo batch;
     private WebDriver driver;
-    private String url1 ="https://demo.applitools.com";
-    //private String url1 = "https://demo.applitools.com/index_v2.html";
+    //private String url1 ="https://demo.applitools.com";
+    private String url1 = "https://demo.applitools.com/index_v2.html";
     private String url2 ="https://demo.applitools.com/app.html";
     //private String url2 = "https://demo.applitools.com/app_v2.html";
 
