@@ -32,6 +32,7 @@ public class DemoApp {
     private String url2 ="https://demo.applitools.com/app.html";
     //private String url2 = "https://demo.applitools.com/app_v2.html";
 
+    
     @AfterClass
     public static void closeBatch() {
         batch.setCompleted(true);
