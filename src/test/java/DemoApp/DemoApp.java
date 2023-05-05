@@ -27,11 +27,16 @@ public class DemoApp {
     private Eyes eyes;
     private static BatchInfo batch;
     private WebDriver driver;
-    //private String url1 ="https://demo.applitools.com";
-    private String url1 = "https://demo.applitools.com/index_v2.html";
+    private String url1 ="https://demo.applitools.com";
+    //private String url1 = "https://demo.applitools.com/index_v2.html";
     private String url2 ="https://demo.applitools.com/app.html";
     //private String url2 = "https://demo.applitools.com/app_v2.html";
 
+    @AfterClass
+    public static void closeBatch() {
+        batch.setCompleted(true);
+    }
+    
     @BeforeClass
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
@@ -47,6 +52,8 @@ public class DemoApp {
             batch.setId(batchId);
             System.out.println("Applitools Batch ID is " + batchId);
         }
+        
+        batch.setNotifyOnCompletion(true);
     }
 
     @Before
