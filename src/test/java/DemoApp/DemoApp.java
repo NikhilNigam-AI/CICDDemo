@@ -32,6 +32,11 @@ public class DemoApp {
     private String url2 ="https://demo.applitools.com/app.html";
     //private String url2 = "https://demo.applitools.com/app_v2.html";
 
+    @AfterClass
+    public static void closeBatch() {
+        batch.setCompleted(true);
+    }
+    
     @BeforeClass
     public static void setBatch() {
         // Must be before ALL tests (at Class-level)
@@ -47,6 +52,8 @@ public class DemoApp {
             batch.setId(batchId);
             System.out.println("Applitools Batch ID is " + batchId);
         }
+        
+        batch.setNotifyOnCompletion(true);
     }
 
     @Before
@@ -99,6 +106,8 @@ public class DemoApp {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         options.addArguments("--headless");
+        
+        
 
         // Use Chrome browser
         driver = new ChromeDriver(options);
